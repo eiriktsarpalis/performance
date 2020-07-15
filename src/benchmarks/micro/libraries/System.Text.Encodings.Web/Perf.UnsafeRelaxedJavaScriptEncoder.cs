@@ -50,9 +50,15 @@ namespace System.Text.Tests
         }
 
         [Benchmark]
-        public void EncodeUtf8() => _encoder.EncodeUtf8(_sourceBufferUtf8, _destinationBufferUtf8, out int _, out int _);
+        public void EncodeUtf8() => _encoder.FindFirstCharacterToEncodeUtf8(_sourceBufferUtf8);
 
         [Benchmark]
-        public void EncodeUtf16() => _encoder.Encode(_sourceBufferUtf16, _destinationBufferUtf16, out int _, out int _);
+        public unsafe void EncodeUtf16()
+        {
+            fixed (char* p = _sourceBufferUtf16)
+            {
+                _encoder.FindFirstCharacterToEncode(p, _sourceBufferUtf16.Length);
+            }
+        }
     }
 }
