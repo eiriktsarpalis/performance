@@ -17,7 +17,7 @@ namespace System.Threading.Tasks.Tests
         {
             for (int i = 0; i < 100_000; i++)
             {
-                await EmptyAsync();
+                await EmptyAsync().ConfigureAwait(false);
             }
 
             async Task EmptyAsync() { }
@@ -28,7 +28,7 @@ namespace System.Threading.Tasks.Tests
         {
             for (int i = 0; i < 1_000; i++)
             {
-                await Yield();
+                await Yield().ConfigureAwait(false);
             }
 
             async Task Yield() => await Task.Yield();
